@@ -3,16 +3,14 @@ import ptJson from "@/translate/pt.json";
 
 export const downloadFile = async ({
   fileName,
-  resp,
-  showToast = true,
+  blobFile,
 }: {
-  resp: Response;
   fileName: string;
-  showToast?: boolean;
+  blobFile: Blob;
 }) => {
   try {
     // resp = file encode
-    const blob = await resp.blob();
+    const blob = blobFile;
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -21,8 +19,7 @@ export const downloadFile = async ({
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
-
-    if (showToast) toast.success(ptJson.download_success);
+    toast.success(ptJson.download_success);
   } catch (err) {
     void err;
     toast.error(ptJson.default_error_message);
@@ -32,3 +29,15 @@ export const downloadFile = async ({
 export const removeFileByIndex = (files: File[], indexToRemove: number) => {
   return files.filter((_, i) => i !== indexToRemove);
 };
+
+export function downloadZip(buffer: ArrayBuffer, fileName = "file.zip") {
+  const blob = new Blob([buffer], { type: "application/zip" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  URL.revokeObjectURL(link.href);
+  document.body.removeChild(link);
+  toast.success(ptJson.download_success);
+}

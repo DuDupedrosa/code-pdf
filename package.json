@@ -15,6 +15,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@ilovepdf/ilovepdf-nodejs": "^0.3.0",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.8.3",
     "date-fns": "^4.1.0",
     "form-data": "^4.0.2",
     "next": "15.2.2",
@@ -26,6 +28,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/adm-zip": "^0.5.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

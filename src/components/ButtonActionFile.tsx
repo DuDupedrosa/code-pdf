@@ -14,7 +14,7 @@ export default function ButtonActionFile({
       <button
         disabled={loading}
         onClick={() => onAction()}
-        className="btn btn-primary btn-lg mt-8"
+        className="btn btn-primary btn-lg mt-12"
       >
         {loading && (
           <>
