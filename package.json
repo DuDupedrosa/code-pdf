@@ -20,6 +20,7 @@
     "date-fns": "^4.1.0",
     "form-data": "^4.0.2",
     "next": "15.2.2",
+    "pdf-lib": "^1.17.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",

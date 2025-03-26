@@ -73,5 +73,6 @@
   "lock_progress_text": "Protegendo seu PDF... Isso levará apenas alguns instantes.",
   "required_pdf_to_lock": "Para proteger o PDF, selecione um arquivo.",
   "only_pdf_is_allowed_to_lock": "Somente arquivos PDF podem ser protegidos.",
-  "required_password_to_lock_pdf": "É necessário uma senha para proteger o PDF."
+  "required_password_to_lock_pdf": "É necessário uma senha para proteger o PDF.",
+  "pdf_already_encrypted": "Este PDF já está protegido por senha. Não é possível aplicar uma nova proteção."
 }

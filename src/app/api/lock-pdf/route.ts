@@ -4,6 +4,20 @@ import { writeFile, unlink } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import { tmpdir } from "os";
 import path from "path";
+import { PDFDocument } from "pdf-lib";
+
+async function checkIfPdfIsEncrypted(fileBuffer: Buffer): Promise<boolean> {
+  try {
+    const pdfDoc = await PDFDocument.load(fileBuffer, {
+      ignoreEncryption: true,
+    });
+
+    return pdfDoc.isEncrypted;
+  } catch (error) {
+    void error;
+    return false;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const lockPdf = "lock_pdf";
@@ -27,6 +41,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const bytes = await file.arrayBuffer();
+
+    if (await checkIfPdfIsEncrypted(Buffer.from(bytes))) {
+      return NextResponse.json(
+        { message: "pdf_already_encrypted" },
+        { status: 400 }
+      );
+    }
+
     if (!password) {
       return NextResponse.json(
         { message: "required_password_to_lock_pdf" },
@@ -41,7 +64,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // environments variables
     const iLovePdfPublicKey = process.env.ILOVEPDF_PUBLIC_KEY;
     const iLovePdfSecretKey = process.env.ILOVEPDF_SECRET_KEY;
 
@@ -52,19 +74,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // iniciar a instance do ILovePdf
     const instance = new ILovePDFApi(iLovePdfPublicKey, iLovePdfSecretKey);
     const task = instance.newTask("protect");
     await task.start();
-
     const tempFileName = file.name;
     const tempPath = path.join(tmpdir(), tempFileName);
     tempPathToRemove = tempPath;
-    const bytes = await file.arrayBuffer();
     await writeFile(tempPath, Buffer.from(bytes));
     const pdfFile = new ILovePDFFile(tempPath);
     await task.addFile(pdfFile);
-
     await task.process({
       password,
     });
