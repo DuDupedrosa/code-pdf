@@ -122,9 +122,10 @@ export async function POST(req: NextRequest) {
     }
   } catch (error) {
     void error;
-    return NextResponse.json({
-      message: `internal_server_erro|${compressPdf}`,
-    });
+    return NextResponse.json(
+      { message: `internal_server_erro|${compressPdf}` },
+      { status: 500 }
+    );
   } finally {
     for (const tempPath of tempPaths) {
       try {
