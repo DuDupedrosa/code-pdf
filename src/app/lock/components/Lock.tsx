@@ -8,7 +8,7 @@ import ptJson from "@/translate/pt.json";
 import SelectedFile from "@/components/SelectedFile";
 import ButtonActionFile from "@/components/ButtonActionFile";
 import { downloadFile, removeFileByIndex } from "@/helpers/methods/fileHelper";
-import { showFetchErroMessage } from "@/helpers/methods/fetchHelper";
+import { getFetchErroMessage } from "@/helpers/methods/fetchHelper";
 import { pageMainSection } from "@/style/section";
 import SuccessFinishedTask from "@/components/SuccessFinishedTask";
 import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
 import MainFileLoading from "@/components/MainFileLoading";
+import AlertErro from "@/components/AlertErro";
 
 export default function Lock() {
   const [files, setFiles] = useState<File[] | []>([]);
@@ -31,6 +32,7 @@ export default function Lock() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [requiredPassword, setRequiredPassword] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -38,7 +40,9 @@ export default function Lock() {
         const totalFiles = [...prevFiles, ...acceptedFiles].length;
 
         if (totalFiles > 1 && !toastShownRef.current) {
-          toast.warning(ptJson.you_can_process_1_files);
+          toast.warning(ptJson.you_can_process_1_files, {
+            position: "top-center",
+          });
           toastShownRef.current = true;
           setTimeout(() => {
             toastShownRef.current = false;
@@ -57,9 +61,12 @@ export default function Lock() {
   });
 
   const lockFile = async () => {
+    setAlertMessage("");
     try {
       if (!files || files.length <= 0) {
-        toast.warning(ptJson.select_file_to_continue);
+        toast.warning(ptJson.select_file_to_continue, {
+          position: "top-center",
+        });
         return;
       }
 
@@ -73,7 +80,9 @@ export default function Lock() {
       }
 
       if (files.length > 1) {
-        toast.warning(ptJson.you_can_process_1_files);
+        toast.warning(ptJson.you_can_process_1_files, {
+          position: "top-center",
+        });
         return;
       }
 
@@ -88,7 +97,10 @@ export default function Lock() {
       });
 
       if (!resp.ok) {
-        showFetchErroMessage(resp);
+        const errorMessage = await getFetchErroMessage(resp);
+        if (errorMessage) {
+          setAlertMessage(errorMessage);
+        }
         return;
       }
 
@@ -103,7 +115,7 @@ export default function Lock() {
       setFiles([]);
     } catch (err) {
       void err;
-      toast.error(ptJson.default_error_message);
+      setAlertMessage(ptJson.default_error_message_full);
     } finally {
       setLoading(false);
     }
@@ -115,6 +127,10 @@ export default function Lock() {
 
   function handleDownloadFile() {
     const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
+    if (!blobFile) {
+      toast.error(ptJson.default_error_message);
+      return;
+    }
 
     if (blobFile) {
       downloadFile({
@@ -236,6 +252,15 @@ export default function Lock() {
               </div>
             </>
           )}
+
+          <div className="max-w-full mt-5 md:max-w-1/2 mx-auto">
+            <AlertErro
+              scrollToBottom={true}
+              message={alertMessage}
+              open={alertMessage.length > 0}
+              onClose={() => setAlertMessage("")}
+            />
+          </div>
 
           <ButtonActionFile
             loading={loading}

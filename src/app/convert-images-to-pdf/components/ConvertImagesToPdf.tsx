@@ -13,13 +13,14 @@ import {
   downloadZip,
   removeFileByIndex,
 } from "@/helpers/methods/fileHelper";
-import { showFetchErroMessage } from "@/helpers/methods/fetchHelper";
+import { getFetchErroMessage } from "@/helpers/methods/fetchHelper";
 import { pageMainSection } from "@/style/section";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import MainFileLoading from "@/components/MainFileLoading";
 import SuccessFinishedTask from "@/components/SuccessFinishedTask";
 import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
+import AlertErro from "@/components/AlertErro";
 
 const orientationOptions = {
   portrait: "portrait",
@@ -44,6 +45,7 @@ export default function ConvertImagesToPdf() {
   const [blobFile, setBlobFile] = useState<Blob | null>(null);
   const [bufferFile, setBufferFile] = useState<ArrayBuffer | null>(null);
   const toastShownRef = useRef(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -51,7 +53,9 @@ export default function ConvertImagesToPdf() {
         const totalFiles = [...prevImages, ...acceptedFiles].length;
 
         if (totalFiles > 4 && !toastShownRef.current) {
-          toast.warning(ptJson.you_can_process_4_files);
+          toast.warning(ptJson.you_can_process_4_files, {
+            position: "top-center",
+          });
           toastShownRef.current = true;
           setTimeout(() => {
             toastShownRef.current = false;
@@ -70,14 +74,19 @@ export default function ConvertImagesToPdf() {
   });
 
   const convertImage = async () => {
+    setAlertMessage("");
     try {
       if (!images || images.length <= 0) {
-        toast.warning(ptJson.select_file_to_continue);
+        toast.warning(ptJson.select_file_to_continue, {
+          position: "top-center",
+        });
         return;
       }
 
       if (images.length > 4) {
-        toast.warning(ptJson.max_4_files);
+        toast.warning(ptJson.you_can_process_4_files, {
+          position: "top-center",
+        });
         return;
       }
 
@@ -96,7 +105,10 @@ export default function ConvertImagesToPdf() {
       });
 
       if (!resp.ok) {
-        showFetchErroMessage(resp);
+        const errorMessage = await getFetchErroMessage(resp);
+        if (errorMessage) {
+          setAlertMessage(errorMessage);
+        }
         return;
       }
 
@@ -122,7 +134,7 @@ export default function ConvertImagesToPdf() {
       setImages([]);
     } catch (err) {
       void err;
-      toast.error(ptJson.default_error_message);
+      setAlertMessage(ptJson.default_error_message_full);
     } finally {
       setLoading(false);
     }
@@ -276,6 +288,15 @@ export default function ConvertImagesToPdf() {
               </div>
             </div>
           )}
+
+          <div className="max-w-full mt-5 md:max-w-1/2 mx-auto">
+            <AlertErro
+              scrollToBottom={true}
+              message={alertMessage}
+              open={alertMessage.length > 0}
+              onClose={() => setAlertMessage("")}
+            />
+          </div>
 
           <ButtonActionFile
             label={ptJson.convert_to_pdf}

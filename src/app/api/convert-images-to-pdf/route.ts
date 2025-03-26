@@ -63,14 +63,14 @@ export async function POST(req: NextRequest) {
 
     if (images.length === 0) {
       return NextResponse.json(
-        { message: "image_required_to_convert" },
+        { message: "select_image_to_continue" },
         { status: 400 }
       );
     }
 
     if (images.length > 4) {
       return NextResponse.json(
-        { message: "maximum_of_4_images_allowed" },
+        { message: "you_can_process_4_files" },
         { status: 400 }
       );
     }

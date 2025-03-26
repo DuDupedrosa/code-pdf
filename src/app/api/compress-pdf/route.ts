@@ -35,7 +35,10 @@ export async function POST(req: NextRequest) {
     const compressionLevel = formData.get("compressionLevel") as string;
 
     if (!files || files.length <= 0) {
-      return NextResponse.json({ message: "field_required" }, { status: 400 });
+      return NextResponse.json(
+        { message: "select_file_to_continue" },
+        { status: 400 }
+      );
     }
 
     if (!filesAreAllowed(files)) {
@@ -47,8 +50,8 @@ export async function POST(req: NextRequest) {
 
     if (files.length > 2) {
       return NextResponse.json(
-        { message: "max_files_limited" },
-        { status: 4000 }
+        { message: "you_can_process_2_files" },
+        { status: 400 }
       );
     }
 

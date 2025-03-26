@@ -21,3 +21,27 @@ export const showFetchErroMessage = async (resp: Response) => {
     toast.error(ptJson.default_error_message);
   }
 };
+
+export const getFetchErroMessage = async (resp: Response) => {
+  try {
+    const errData: { message: string } = await resp.json();
+    let toastMessage = ptJson.default_error_message_full;
+
+    if (resp.status === ErrStatusEnum.BAD_REQUEST) {
+      const errMessage = errData.message as keyof typeof ptJson;
+
+      if (errMessage && ptJson[errMessage]) {
+        toastMessage = ptJson[errMessage];
+      }
+    }
+
+    if (toastMessage !== ptJson.default_error_message_full) {
+      return toastMessage;
+    }
+
+    return toastMessage;
+  } catch (err) {
+    void err;
+    toast.error(ptJson.default_error_message_full);
+  }
+};
