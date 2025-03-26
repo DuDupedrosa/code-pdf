@@ -2,6 +2,7 @@ import {
   faCompress,
   faImage,
   faLock,
+  faLockOpen,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -84,6 +85,16 @@ export default function Home() {
           }}
           title={ptJson.lock_pdf}
           description={`${ptJson.lock_pdf_description}.`}
+        />
+
+        <CardAction
+          toPath="unlock"
+          iconProps={{
+            color: "text-violet-600",
+            icon: faLockOpen,
+          }}
+          title={ptJson.unlock_pdf}
+          description={`${ptJson.unlock_pdf_description}.`}
         />
       </div>
     </div>

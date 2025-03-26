@@ -64,7 +64,7 @@
   "lock_pdf": "Proteger PDF com Senha",
   "lock_pdf_description": "Adicione uma senha para proteger o acesso ao seu PDF",
   "lock_another_pdf": "Proteger outro PDF",
-  "locked_pdf_success": "PDF protegido com sucesso!",
+  "locked_pdf_success": "Seu PDF foi protegido com sucesso!",
   "fill_required_field": "Preencha este campo para continuar",
   "password_min_3_caracteres": "A senha deve ter no mínimo 3 caracteres.",
   "lock_pdf_single": "Proteger PDF",
@@ -74,5 +74,14 @@
   "required_pdf_to_lock": "Para proteger o PDF, selecione um arquivo.",
   "only_pdf_is_allowed_to_lock": "Somente arquivos PDF podem ser protegidos.",
   "required_password_to_lock_pdf": "É necessário uma senha para proteger o PDF.",
-  "pdf_already_encrypted": "Este PDF já está protegido por senha. Não é possível aplicar uma nova proteção."
+  "pdf_already_encrypted": "Este PDF já está protegido por senha. Não é possível aplicar uma nova proteção.",
+  "unlock_pdf": "Desbloquear PDF Protegido",
+  "unlock_pdf_description": "Remova a senha do seu PDF com rapidez e segurança",
+  "unlocked_pdf_success": "Seu PDF foi desbloqueado com sucesso!",
+  "unlock_another_pdf": "Desbloquear outro PDF",
+  "unlock_progress_text": "Desbloqueando seu PDF... Isso levará apenas alguns instantes.",
+  "unlock_pdf_single": "Desbloquear PDF",
+  "pdf_already_unlock": "Este PDF já está desbloqueado e não possui proteção por senha.",
+  "required_pdf_to_unlock": "Para desbloquear o PDF, selecione um arquivo.",
+  "only_pdf_is_allowed_to_unlock": "Somente arquivos PDF podem ser desbloqueados."
 }
