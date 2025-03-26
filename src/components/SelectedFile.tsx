@@ -16,7 +16,7 @@ export default function SelectedFile({
           icon={faFile}
           className="text-gray-400 text-lg w-5 h-5"
         />
-        {ptJson.selected_files}:
+        {files.length > 1 ? ptJson.selected_files : ptJson.selected_file}:
       </h3>
       <ul className="mt-5 text-gray-700 flex flex-col gap-5">
         {files.map((file, index) => (
@@ -29,6 +29,7 @@ export default function SelectedFile({
             </span>
 
             <button
+              title="Remover arquivo"
               className="btn btn-sm btn-error"
               onClick={() => onRemoveFile(index)}
             >

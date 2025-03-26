@@ -49,7 +49,7 @@ export default function Compress() {
         const totalFiles = [...prevFiles, ...acceptedFiles].length;
 
         if (totalFiles > 2 && !toastShownRef.current) {
-          toast.warning(ptJson.you_can_converted_2_files);
+          toast.warning(ptJson.you_can_process_2_files);
           toastShownRef.current = true;
           setTimeout(() => {
             toastShownRef.current = false;
@@ -59,7 +59,7 @@ export default function Compress() {
         return [...prevFiles, ...acceptedFiles].slice(0, 2);
       });
     },
-    [ptJson.you_can_converted_2_files, setFiles]
+    [ptJson.you_can_process_2_files, setFiles]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -69,17 +69,17 @@ export default function Compress() {
 
   const compressFile = async () => {
     try {
-      setLoading(true);
       if (!files || files.length <= 0) {
         toast.warning(ptJson.select_file_to_continue);
         return;
       }
 
       if (files.length > 2) {
-        toast.warning(ptJson.you_can_converted_2_files);
+        toast.warning(ptJson.you_can_process_2_files);
         return;
       }
 
+      setLoading(true);
       const formData = new FormData();
       formData.append("compressionLevel", String(compressionLevel));
       files.forEach((file) => {
@@ -113,11 +113,11 @@ export default function Compress() {
       }
 
       setFinishedTask(true);
+      setFiles([]);
     } catch (err) {
       void err;
       toast.error(ptJson.default_error_message);
     } finally {
-      setFiles([]);
       setLoading(false);
     }
   };
@@ -144,6 +144,7 @@ export default function Compress() {
 
   function handleBackAction() {
     setFiles([]);
+    setCompressionLevel(compressionLevelOptions.recommended);
     setFinishedTask(false);
     setBlobFile(null);
     setBufferFile(null);
@@ -174,7 +175,7 @@ export default function Compress() {
             subtitle={ptJson.compress_pdf_subtitle}
           />
 
-          <MaxFilesTooltipInfo text={ptJson.you_can_converted_2_files} />
+          <MaxFilesTooltipInfo text={ptJson.you_can_process_2_files} />
 
           <div
             {...getRootProps()}

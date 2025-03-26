@@ -10,7 +10,7 @@ export default function MaxFilesTooltipInfo({ text }: { text?: string }) {
         className="w-4 h-4 text-lg text-blue-400"
       />
       <p className="text-xs md:text-sm font-medium text-gray-400">
-        {text ?? ptJson.you_can_converted_4_files}
+        {text ?? ptJson.you_can_process_4_files}
       </p>
     </div>
   );

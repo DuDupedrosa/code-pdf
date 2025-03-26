@@ -12,6 +12,7 @@ export default function ButtonActionFile({
   return (
     <div className="mx-auto max-w-max">
       <button
+        title={label}
         disabled={loading}
         onClick={() => onAction()}
         className="btn btn-primary btn-lg mt-12"

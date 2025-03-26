@@ -1,6 +1,7 @@
 import {
   faCompress,
   faImage,
+  faLock,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,7 +55,7 @@ export default function Home() {
       </div>
 
       {/* opções para manipular o pdf */}
-      <div className="flex flex-col md:flex-row justify-center gap-5 items-stretch mt-12">
+      <div className="flex flex-col flex-wrap md:flex-row justify-center gap-5 items-stretch mt-12">
         <CardAction
           toPath="compress"
           iconProps={{
@@ -73,6 +74,16 @@ export default function Home() {
           }}
           title={ptJson.image_to_pdf}
           description={ptJson.image_to_pdf_description}
+        />
+
+        <CardAction
+          toPath="lock"
+          iconProps={{
+            color: "text-blue-600",
+            icon: faLock,
+          }}
+          title={ptJson.lock_pdf}
+          description={`${ptJson.lock_pdf_description}.`}
         />
       </div>
     </div>

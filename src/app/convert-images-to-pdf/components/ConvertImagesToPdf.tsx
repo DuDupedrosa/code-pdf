@@ -51,7 +51,7 @@ export default function ConvertImagesToPdf() {
         const totalFiles = [...prevImages, ...acceptedFiles].length;
 
         if (totalFiles > 4 && !toastShownRef.current) {
-          toast.warning(ptJson.you_can_converted_4_images);
+          toast.warning(ptJson.you_can_process_4_files);
           toastShownRef.current = true;
           setTimeout(() => {
             toastShownRef.current = false;
@@ -61,7 +61,7 @@ export default function ConvertImagesToPdf() {
         return [...prevImages, ...acceptedFiles].slice(0, 4);
       });
     },
-    [ptJson.you_can_converted_4_images, setImages]
+    [ptJson.you_can_process_4_files, setImages]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -71,7 +71,6 @@ export default function ConvertImagesToPdf() {
 
   const convertImage = async () => {
     try {
-      setLoading(true);
       if (!images || images.length <= 0) {
         toast.warning(ptJson.select_file_to_continue);
         return;
@@ -82,6 +81,7 @@ export default function ConvertImagesToPdf() {
         return;
       }
 
+      setLoading(true);
       const formData = new FormData();
       formData.append("mergeAfter", String(mergeAfter));
       formData.append("orientation", orientation);
@@ -119,11 +119,11 @@ export default function ConvertImagesToPdf() {
       }
 
       setFinishedTask(true);
+      setImages([]);
     } catch (err) {
       void err;
       toast.error(ptJson.default_error_message);
     } finally {
-      setImages([]);
       setLoading(false);
     }
   };
@@ -155,6 +155,9 @@ export default function ConvertImagesToPdf() {
 
   function handleBackAction() {
     setImages([]);
+    setMergeAfter(true);
+    setMargin(marginOptions.default);
+    setOrientation(orientationOptions.portrait);
     setFinishedTask(false);
     setBlobFile(null);
     setBufferFile(null);
