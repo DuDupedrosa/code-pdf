@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import ptJson from "@/translate/pt.json";
 import SelectedFile from "@/components/SelectedFile";
 import ButtonActionFile from "@/components/ButtonActionFile";
-import { downloadFile, removeFileByIndex } from "@/helpers/methods/fileHelper";
+import { downloadFile } from "@/helpers/methods/fileHelper";
 import { getFetchErroMessage } from "@/helpers/methods/fetchHelper";
 import { pageMainSection } from "@/style/section";
 import SuccessFinishedTask from "@/components/SuccessFinishedTask";
@@ -101,10 +101,6 @@ export default function UnLock() {
     }
   };
 
-  function handleRemoveFile(index: number) {
-    setFiles(removeFileByIndex(files, index));
-  }
-
   function handleDownloadFile() {
     const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
     if (!blobFile) {
@@ -164,8 +160,8 @@ export default function UnLock() {
           {files && files.length > 0 && (
             <>
               <SelectedFile
-                onRemoveFile={(index: number) => handleRemoveFile(index)}
                 files={files}
+                onChangeIndex={(newFiles: File[]) => setFiles(newFiles)}
               />
             </>
           )}

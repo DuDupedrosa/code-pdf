@@ -8,11 +8,7 @@ import ptJson from "@/translate/pt.json";
 import { format } from "date-fns";
 import SelectedFile from "@/components/SelectedFile";
 import ButtonActionFile from "@/components/ButtonActionFile";
-import {
-  downloadFile,
-  downloadZip,
-  removeFileByIndex,
-} from "@/helpers/methods/fileHelper";
+import { downloadFile, downloadZip } from "@/helpers/methods/fileHelper";
 import { getFetchErroMessage } from "@/helpers/methods/fetchHelper";
 import { pageMainSection } from "@/style/section";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -140,10 +136,6 @@ export default function ConvertImagesToPdf() {
     }
   };
 
-  function handleRemoveFile(index: number) {
-    setImages(removeFileByIndex(images, index));
-  }
-
   function handleDownloadFile() {
     const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
 
@@ -219,7 +211,7 @@ export default function ConvertImagesToPdf() {
           {images && images.length > 0 && (
             <SelectedFile
               files={images}
-              onRemoveFile={(index: number) => handleRemoveFile(index)}
+              onChangeIndex={(files: File[]) => setImages(files)}
             />
           )}
 
