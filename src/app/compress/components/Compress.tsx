@@ -14,9 +14,9 @@ import SuccessFinishedTask from "@/components/SuccessFinishedTask";
 import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-import { format } from "date-fns";
 import MainFileLoading from "@/components/MainFileLoading";
 import AlertErro from "@/components/AlertErro";
+import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
 
 const radioLabel =
   "label cursor-pointer whitespace-break-spaces flex items-start gap-2 w-full";
@@ -104,8 +104,7 @@ export default function Compress() {
         return;
       }
 
-      const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
-      const pdfName = `compressed-pdf-${formatDate}`;
+      const pdfName = `compressed-pdf-${getDateToFileConverted()}`;
 
       if (files.length === 1) {
         const blobFile = await resp.blob();
@@ -131,8 +130,7 @@ export default function Compress() {
   };
 
   function handleDownloadFile() {
-    const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
-    const pdfName = `compressed-pdf-${formatDate}`;
+    const pdfName = `compressed-pdf-${getDateToFileConverted()}`;
     if (!blobFile && !bufferFile) {
       toast.error(ptJson.default_error_message);
     }

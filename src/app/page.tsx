@@ -1,5 +1,6 @@
 import {
   faCompress,
+  faFileWord,
   faImage,
   faLock,
   faLockOpen,
@@ -78,9 +79,19 @@ export default function Home() {
         />
 
         <CardAction
-          toPath="lock"
+          toPath="word-to-pdf"
           iconProps={{
             color: "text-blue-600",
+            icon: faFileWord,
+          }}
+          title={ptJson.word_pdf}
+          description={`${ptJson.word_pdf_description}.`}
+        />
+
+        <CardAction
+          toPath="lock"
+          iconProps={{
+            color: "text-pink-600",
             icon: faLock,
           }}
           title={ptJson.lock_pdf}

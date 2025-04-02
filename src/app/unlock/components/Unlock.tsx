@@ -12,9 +12,9 @@ import { getFetchErroMessage } from "@/helpers/methods/fetchHelper";
 import { pageMainSection } from "@/style/section";
 import SuccessFinishedTask from "@/components/SuccessFinishedTask";
 import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
-import { format } from "date-fns";
 import MainFileLoading from "@/components/MainFileLoading";
 import AlertErro from "@/components/AlertErro";
+import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
 
 export default function UnLock() {
   const [files, setFiles] = useState<File[] | []>([]);
@@ -84,11 +84,10 @@ export default function UnLock() {
         return;
       }
 
-      const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
       const blobFile = await resp.blob();
       setBlobFile(blobFile);
       downloadFile({
-        fileName: `unlock-pdf-${formatDate}.pdf`,
+        fileName: `unlock-pdf-${getDateToFileConverted()}.pdf`,
         blobFile: blobFile,
       });
       setFinishedTask(true);
@@ -102,7 +101,6 @@ export default function UnLock() {
   };
 
   function handleDownloadFile() {
-    const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
     if (!blobFile) {
       toast.error(ptJson.default_error_message);
       return;
@@ -110,7 +108,7 @@ export default function UnLock() {
 
     if (blobFile) {
       downloadFile({
-        fileName: `unlock-pdf-${formatDate}.pdf`,
+        fileName: `unlock-pdf-${getDateToFileConverted()}.pdf`,
         blobFile: blobFile,
       });
     }

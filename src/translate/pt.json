@@ -71,6 +71,7 @@
   "password": "Senha",
   "password_to_pdf": "Senha para o PDF",
   "lock_progress_text": "Protegendo seu PDF... Isso levará apenas alguns instantes.",
+  "convert_to_pdf_progress_text": "Convertendo seu arquivo para PDF... Isso levará apenas alguns instantes.",
   "required_pdf_to_lock": "Para proteger o PDF, selecione um arquivo.",
   "only_pdf_is_allowed_to_lock": "Somente arquivos PDF podem ser protegidos.",
   "required_password_to_lock_pdf": "É necessário uma senha para proteger o PDF.",
@@ -83,5 +84,10 @@
   "unlock_pdf_single": "Desbloquear PDF",
   "pdf_already_unlock": "Este PDF já está desbloqueado e não possui proteção por senha.",
   "required_pdf_to_unlock": "Para desbloquear o PDF, selecione um arquivo.",
-  "only_pdf_is_allowed_to_unlock": "Somente arquivos PDF podem ser desbloqueados."
+  "only_pdf_is_allowed_to_unlock": "Somente arquivos PDF podem ser desbloqueados.",
+  "word_pdf": "Word para PDF",
+  "word_pdf_description": "Converta arquivos Word (DOC e DOCX) em PDF de forma simples e rápida",
+  "convert_to_pdf_success": "Conversão para PDF concluída com sucesso!",
+  "required_field_to_convert": "É necessário fornecer um arquivo do Microsoft Office para conversão em PDF (DOC, DOCX, PPT, PPTX, XLS, XLSX).",
+  "invalid_file_type": "Somente arquivos do tipo Microsoft Office (DOC, DOCX, PPT, PPTX, XLS, XLSX) são permitidos para conversão em PDF."
 }
