@@ -5,7 +5,6 @@ import { useCallback, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import ptJson from "@/translate/pt.json";
-import { format } from "date-fns";
 import SelectedFile from "@/components/SelectedFile";
 import ButtonActionFile from "@/components/ButtonActionFile";
 import { downloadFile, downloadZip } from "@/helpers/methods/fileHelper";
@@ -17,6 +16,7 @@ import MainFileLoading from "@/components/MainFileLoading";
 import SuccessFinishedTask from "@/components/SuccessFinishedTask";
 import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
 import AlertErro from "@/components/AlertErro";
+import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
 
 const orientationOptions = {
   portrait: "portrait",
@@ -108,8 +108,7 @@ export default function ConvertImagesToPdf() {
         return;
       }
 
-      const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
-      const fileName = `image-to-pdf-${formatDate}`;
+      const fileName = `image-to-pdf-${getDateToFileConverted()}`;
 
       if (mergeAfter) {
         const blobFile = await resp.blob();
@@ -137,7 +136,7 @@ export default function ConvertImagesToPdf() {
   };
 
   function handleDownloadFile() {
-    const formatDate = format(new Date(), "dd-MM-yy-HH:mm:ss");
+    const formatDate = getDateToFileConverted();
 
     if (mergeAfter) {
       if (!blobFile) {
