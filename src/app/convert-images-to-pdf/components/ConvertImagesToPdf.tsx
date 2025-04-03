@@ -66,7 +66,7 @@ export default function ConvertImagesToPdf() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { "image/jpg": [".jpg"], "image/png": [".png"] },
+    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] },
   });
 
   const convertImage = async () => {
