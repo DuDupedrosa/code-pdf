@@ -86,12 +86,12 @@
   "required_pdf_to_unlock": "Para desbloquear o PDF, selecione um arquivo.",
   "only_pdf_is_allowed_to_unlock": "Somente arquivos PDF podem ser desbloqueados.",
   "word_pdf": "Word para PDF",
-  "word_pdf_description": "Converta arquivos Word (DOC e DOCX) em PDF de forma simples e rápida",
+  "word_pdf_description": "Gere arquivos PDF a partir de documentos do Word (DOC e DOCX) de maneira simples",
   "convert_to_pdf_success": "Conversão para PDF concluída com sucesso!",
   "required_field_to_convert": "É necessário fornecer um arquivo do Microsoft Office para conversão em PDF (DOC, DOCX, PPT, PPTX, XLS, XLSX).",
   "invalid_file_type": "Somente arquivos do tipo Microsoft Office (DOC, DOCX, PPT, PPTX, XLS, XLSX) são permitidos para conversão em PDF.",
   "excel_pdf": "Excel para PDF",
-  "excel_pdf_description": "Converta arquivos Excel (XLS e XLSX) em PDF de forma simples e rápida",
+  "excel_pdf_description": "Converta suas planilhas do Excel (XLS e XLSX) para PDF rapidamente",
   "powerpoint_pdf": "PowerPoint para PDF",
-  "powerpoint_pdf_description": "Converta arquivos PowerPoint (PPT e PPTX) em PDF de forma simples e rápida"
+  "powerpoint_pdf_description": "Transforme apresentações PowerPoint (PPT e PPTX) em arquivos PDF com facilidade"
 }
