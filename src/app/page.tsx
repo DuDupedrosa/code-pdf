@@ -7,6 +7,7 @@ import {
   faImage,
   faLock,
   faLockOpen,
+  faObjectGroup,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,6 +73,16 @@ export default function Home() {
         />
 
         <CardAction
+          toPath="merge"
+          iconProps={{
+            color: "text-cyan-600",
+            icon: faObjectGroup,
+          }}
+          title={ptJson.merge_pdf}
+          description={`${ptJson.merge_pdf_description}.`}
+        />
+
+        <CardAction
           toPath="convert-images-to-pdf"
           iconProps={{
             color: "text-yellow-600",
@@ -114,7 +125,7 @@ export default function Home() {
         <CardAction
           toPath="pdf-to-jpg"
           iconProps={{
-            color: "text-red-600",
+            color: "text-indigo-600",
             icon: faFileImage,
           }}
           title={ptJson.pdf_jpg}

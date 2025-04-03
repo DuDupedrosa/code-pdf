@@ -107,5 +107,13 @@
   "extract_images": "Extrair imagens",
   "extract_images_description": " Todas as imagens contidas no PDF serão extraídas como JPG, caso sejam válidas.",
   "required_file_to_convert": "Não é possível realizar uma conversão sem passar arquivos",
-  "invalid_mode_type_pdf_to_jpg": "Tipo inválido da conversão de PDF para JPG."
+  "invalid_mode_type_pdf_to_jpg": "Tipo inválido da conversão de PDF para JPG.",
+  "merge_pdf": "Mesclar PDFs",
+  "merge_pdf_description": "Combine vários arquivos PDF em um único documento de forma rápida e fácil",
+  "merge_progress_text": "Mesclando PDFs... Isso levará apenas alguns instantes.",
+  "success_merge_pdfs": "PDFs mesclados com sucesso!",
+  "merge_more": "Mesclar mais PDFs",
+  "require_min_2_pdf_to_merge": "Selecione pelo menos 2 arquivos PDF para mesclar.",
+  "merge_files": "Mesclar arquivos",
+  "required_files": "Selecione os arquivos necessários. "
 }
