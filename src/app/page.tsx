@@ -1,6 +1,7 @@
 import {
   faCompress,
   faFileExcel,
+  faFilePowerpoint,
   faFileWord,
   faImage,
   faLock,
@@ -97,6 +98,16 @@ export default function Home() {
           }}
           title={ptJson.excel_pdf}
           description={`${ptJson.excel_pdf_description}.`}
+        />
+
+        <CardAction
+          toPath="powerpoint-to-pdf"
+          iconProps={{
+            color: "text-orange-600",
+            icon: faFilePowerpoint,
+          }}
+          title={ptJson.powerpoint_pdf}
+          description={`${ptJson.powerpoint_pdf_description}.`}
         />
 
         <CardAction
