@@ -91,5 +91,7 @@
   "required_field_to_convert": "É necessário fornecer um arquivo do Microsoft Office para conversão em PDF (DOC, DOCX, PPT, PPTX, XLS, XLSX).",
   "invalid_file_type": "Somente arquivos do tipo Microsoft Office (DOC, DOCX, PPT, PPTX, XLS, XLSX) são permitidos para conversão em PDF.",
   "excel_pdf": "Excel para PDF",
-  "excel_pdf_description": "Converta arquivos Excel (XLS e XLSX) em PDF de forma simples e rápida"
+  "excel_pdf_description": "Converta arquivos Excel (XLS e XLSX) em PDF de forma simples e rápida",
+  "powerpoint_pdf": "PowerPoint para PDF",
+  "powerpoint_pdf_description": "Converta arquivos PowerPoint (PPT e PPTX) em PDF de forma simples e rápida"
 }
