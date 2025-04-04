@@ -8,6 +8,7 @@ import {
   faLock,
   faLockOpen,
   faObjectGroup,
+  faRotate,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -130,6 +131,16 @@ export default function Home() {
           }}
           title={ptJson.pdf_jpg}
           description={`${ptJson.pdf_jpg_description}.`}
+        />
+
+        <CardAction
+          toPath="rotate-pdf"
+          iconProps={{
+            color: "text-teal-600",
+            icon: faRotate,
+          }}
+          title={ptJson.rotate_pdf}
+          description={`${ptJson.rotate_pdf_description}.`}
         />
 
         <CardAction

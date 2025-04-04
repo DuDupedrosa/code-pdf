@@ -115,5 +115,15 @@
   "merge_more": "Mesclar mais PDFs",
   "require_min_2_pdf_to_merge": "Selecione pelo menos 2 arquivos PDF para mesclar.",
   "merge_files": "Mesclar arquivos",
-  "required_files": "Selecione os arquivos necessários. "
+  "required_files": "Selecione os arquivos necessários.",
+  "rotate_pdf": "Girar PDF",
+  "rotate_pdf_description": "Gire as páginas do seu PDF para a orientação desejada com apenas alguns cliques",
+  "rotate_pdf_success": "PDF girado com sucesso!",
+  "rotate_more": "Girar outro PDF",
+  "rotate_pdf_progress": "Girando seu PDF... Isso levará apenas alguns instantes.",
+  "example_pdf_visible": " Exemplo de como o PDF será exibido",
+  "turn_left": "Girar para a esquerda",
+  "turn_right": "Girar para a direita",
+  "only_pdf_is_allowed_to_rotate": "Somente PDFs podem ser girados.",
+  "invalid_rotate_pdf_type": "Tipo inválido para girar o PDF"
 }
