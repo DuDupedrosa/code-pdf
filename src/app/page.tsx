@@ -5,6 +5,7 @@ import {
   faFilePowerpoint,
   faFileWord,
   faImage,
+  faListOl,
   faLock,
   faLockOpen,
   faObjectGroup,
@@ -141,6 +142,16 @@ export default function Home() {
           }}
           title={ptJson.rotate_pdf}
           description={`${ptJson.rotate_pdf_description}.`}
+        />
+
+        <CardAction
+          toPath="add-page-number"
+          iconProps={{
+            color: "text-rose-600",
+            icon: faListOl,
+          }}
+          title={ptJson.add_page_number_pdf}
+          description={`${ptJson.add_page_number_pdf_description}.`}
         />
 
         <CardAction
