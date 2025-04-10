@@ -150,5 +150,21 @@
   "font": "Fonte",
   "text_size": "Tamanho do texto",
   "color": "Cor",
-  "only_pdf_accepted": "Somente PDF são permitidos para realizar essa ação."
+  "only_pdf_accepted": "Somente PDF são permitidos para realizar essa ação.",
+  "watermark_add_success": "Marca d'água adicionada com sucesso!",
+  "add_another_watermark_pdf": "Nova marca d'água",
+  "add_watermark_pdf_progress": "Adicionando Marca d'água... Isso levará apenas alguns instantes.",
+  "add_watermark_pdf": "Adicionar marca d'água",
+  "add_watermark_pdf_description": "Escolha um arquivo PDF para inserir uma marca d'água personalizada",
+  "insert_text": "Inserir texto",
+  "insert_image": "Inserir imagem",
+  "text": "Texto",
+  "text_style": "Estilo do text",
+  "display_mode": "Modo de exibição",
+  "mosaic_position_description": "Mosaico (ocupa a tela inteira)",
+  "custom_position_description": "Personalizado (posicionamento manual)",
+  "transparency": "Transparência",
+  "view_layer": "Camada de visualização",
+  "above_content_description": "Sobre o conteúdo",
+  "below_content_description": "Atrás do conteúdo"
 }
