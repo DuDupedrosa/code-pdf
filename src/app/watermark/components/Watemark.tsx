@@ -1,7 +1,7 @@
 "use client";
 
 import PageIntroTitle from "@/components/PageIntroTitle";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import ptJson from "@/translate/pt.json";
@@ -25,18 +25,13 @@ const radioInput = "radio radio-sm mt-1 checked:text-primary";
 const verticalPositionValues = {
   bottom: "bottom",
   top: "top",
+  middle: "middle",
 };
 
 const horizontalPositionValues = {
   left: "left",
   center: "center",
   right: "right",
-};
-
-const pageTextValues = {
-  page_n: "Página {n}",
-  page_n_of_p: "Página {n} de {p}",
-  page: "{n}",
 };
 
 const fontFamilyValues = {
@@ -58,7 +53,25 @@ const fontSizeValues = {
   largeXl: 20,
 };
 
-export default function AddPageNumber() {
+const transparencyValues = {
+  opacity_25: 25,
+  opacity_50: 50,
+  opacity_75: 75,
+  opacity_100: 100,
+};
+
+const layerValues = {
+  above: "above",
+  below: "below",
+};
+
+const fontStylesValues = {
+  normal: "Normal",
+  bold: "Bold",
+  italic: "Italic",
+};
+
+export default function WaterMark() {
   const [files, setFiles] = useState<File[] | []>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [finishedTask, setFinishedTask] = useState<boolean>(false);
@@ -72,12 +85,20 @@ export default function AddPageNumber() {
   const [horizontalPosition, setHorizontalPosition] = useState<string>(
     horizontalPositionValues.right
   );
-  const [pageText, setPageText] = useState<string>(pageTextValues.page);
   const [fontFamily, setFontFamily] = useState<string>(
     fontFamilyValues.arialUnicodeMs
   );
   const [fontSize, setFontSize] = useState<number>(fontSizeValues.sm);
   const [color, setColor] = useState("#000001");
+  const [transparency, setTransparency] = useState<number>(
+    transparencyValues.opacity_100
+  );
+  const [mosaic, setMosaic] = useState<"true" | "false">("false");
+  const [layer, setLayer] = useState<string>(layerValues.above);
+  const [text, setText] = useState<string>("");
+  const [requiredText, setRequiredText] = useState<boolean>(false);
+  const [fontStyle, setFontStyle] = useState<string>(fontStylesValues.normal);
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       setFiles((prevFiles) => {
@@ -119,6 +140,7 @@ export default function AddPageNumber() {
 
   const wordToPdf = async () => {
     setAlertMessage("");
+    setRequiredText(false);
     try {
       if (!files || files.length <= 0) {
         toast.warning(ptJson.select_file_to_continue, {
@@ -134,6 +156,11 @@ export default function AddPageNumber() {
         return;
       }
 
+      if (!text || text.length <= 0) {
+        setRequiredText(true);
+        return;
+      }
+
       setLoading(true);
       const startPageValue = startPage && startPage > 0 ? startPage : 1;
       const formData = new FormData();
@@ -141,12 +168,17 @@ export default function AddPageNumber() {
       formData.append("start_page", String(startPageValue));
       formData.append("vertical_position", verticalPosition);
       formData.append("horizontal_position", horizontalPosition);
-      formData.append("text", pageText);
       formData.append("font_family", fontFamily);
       formData.append("font_size", String(fontSize));
       formData.append("font_color", getHexadecimal(color));
+      formData.append("font_style", fontStyle);
+      formData.append("text", text);
+      formData.append("transparency", String(transparency));
+      formData.append("layer", layer);
+      formData.append("mosaic", mosaic);
+      formData.append("mode", "text");
 
-      const resp = await fetch("/api/add-page-number", {
+      const resp = await fetch("/api/watermark", {
         method: "POST",
         body: formData,
       });
@@ -162,7 +194,7 @@ export default function AddPageNumber() {
       const blobFile = await resp.blob();
       setBlobFile(blobFile);
       downloadFile({
-        fileName: `paged-number-${getDateToFileConverted()}.pdf`,
+        fileName: `watermark-${getDateToFileConverted()}.pdf`,
         blobFile: blobFile,
       });
       setFinishedTask(true);
@@ -183,7 +215,7 @@ export default function AddPageNumber() {
 
     if (blobFile) {
       downloadFile({
-        fileName: `paged-number-${getDateToFileConverted()}.pdf`,
+        fileName: `watermark-${getDateToFileConverted()}.pdf`,
         blobFile: blobFile,
       });
     }
@@ -196,31 +228,41 @@ export default function AddPageNumber() {
     setStartPage(1);
     setVerticalPosition(verticalPositionValues.bottom);
     setHorizontalPosition(horizontalPositionValues.right);
-    setPageText(pageTextValues.page);
     setFontFamily(fontFamilyValues.arialUnicodeMs);
     setFontSize(fontSizeValues.sm);
     setColor("#000001");
+    setFontStyle(fontStylesValues.normal);
+    setMosaic("false");
+    setTransparency(transparencyValues.opacity_100);
+    setLayer(layerValues.above);
+    setText("");
   }
+
+  useEffect(() => {
+    if (files.length <= 0) {
+      setText("");
+    }
+  }, [files]);
 
   return (
     <div className={pageMainSection}>
       {!loading && finishedTask && (
         <SuccessFinishedTask
-          title={ptJson.add_page_number_success}
+          title={ptJson.watermark_add_success}
           downloadButtonText={ptJson.download_pdf}
-          backButton={ptJson.add_another_page_number_pdf}
+          backButton={ptJson.add_another_watermark_pdf}
           onDownload={() => handleDownloadFile()}
           backAction={() => handleBackAction()}
         />
       )}
 
-      {loading && <MainFileLoading text={ptJson.add_page_number_progress} />}
+      {loading && <MainFileLoading text={ptJson.add_watermark_pdf_progress} />}
 
       {!loading && !finishedTask && (
         <div>
           <PageIntroTitle
-            title={ptJson.add_page_number_pdf}
-            subtitle={ptJson.add_page_number_pdf_description}
+            title={ptJson.add_watermark_pdf}
+            subtitle={ptJson.add_watermark_pdf_description}
           />
 
           <MaxFilesTooltipInfo text={ptJson.you_can_process_1_files} />
@@ -263,7 +305,7 @@ export default function AddPageNumber() {
                           checked={true}
                           readOnly
                         />
-                        <span className="w-full">{ptJson.unique_page}</span>
+                        <span className="w-full">{ptJson.insert_text}</span>
                       </label>
 
                       <label
@@ -273,54 +315,105 @@ export default function AddPageNumber() {
                           type="radio"
                           className={`${radioInput} border-primary`}
                           disabled
+                          readOnly
                         />
                         <span className="w-full cursor-not-allowed">
-                          {ptJson.double_page}
+                          {ptJson.insert_image}
                         </span>
                         <div className="badge badge-xs badge-info">
                           {ptJson.coming_soon}
                         </div>
                       </label>
                     </div>
-                  </div>
 
-                  <div className="grid gap-2 mb-3">
-                    <label htmlFor="startPage" className="label">
-                      {ptJson.start_page}
-                    </label>
-                    <input
-                      id="startPage"
-                      value={startPage}
-                      onChange={(e) => {
-                        const rawValue = e.target.value;
-                        const numericValue = Number(rawValue);
-
-                        if (rawValue === "") {
-                          setStartPage(undefined);
-                        } else if (numericValue < 1) {
-                          setStartPage(1);
-                        } else {
-                          setStartPage(numericValue);
-                        }
-                      }}
-                      onKeyDown={(e) => {
-                        if (["-", "e", "E"].includes(e.key)) {
-                          e.preventDefault();
-                        }
-                      }}
-                      className="input input-sm input-primary w-full"
-                      type="number"
-                      min="1"
-                      placeholder="Ex: 1"
-                    />
+                    <div className="grid gap-2 mt-3">
+                      <label
+                        htmlFor="watermark-text"
+                        className={`label ${requiredText ? "input-error" : ""}`}
+                      >
+                        {ptJson.text}
+                      </label>
+                      <input
+                        id="watermark-text"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (requiredText && value && value.length > 0) {
+                            setRequiredText(false);
+                          }
+                          setText(value);
+                        }}
+                        type="text"
+                        className="input input-sm input-primary w-full"
+                      />
+                    </div>
+                    {requiredText && (
+                      <p className="text-xs text-error mt-2">
+                        {ptJson.fill_required_field}
+                      </p>
+                    )}
                   </div>
 
                   <div className="grid gap-3 md:grid-cols-[1fr_1fr] my-3">
+                    <div className="grid gap-2">
+                      <label htmlFor="startPage" className="label">
+                        {ptJson.start_page}
+                      </label>
+                      <input
+                        id="startPage"
+                        value={startPage}
+                        onChange={(e) => {
+                          const rawValue = e.target.value;
+                          const numericValue = Number(rawValue);
+
+                          if (rawValue === "") {
+                            setStartPage(undefined);
+                          } else if (numericValue < 1) {
+                            setStartPage(1);
+                          } else {
+                            setStartPage(numericValue);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (["-", "e", "E"].includes(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className="input input-sm input-primary w-full"
+                        type="number"
+                        min="1"
+                        placeholder="Ex: 1"
+                      />
+                    </div>
+
+                    <div className="grid gap-2">
+                      <label htmlFor="mosaic" className="label">
+                        {ptJson.display_mode}
+                      </label>
+                      <select
+                        value={mosaic}
+                        onChange={(e) =>
+                          setMosaic(
+                            e.target.value === "true" ? "true" : "false"
+                          )
+                        }
+                        id="mosaic"
+                        className="select select-sm select-primary text-white cursor-pointer mr-6 w-full"
+                      >
+                        <option value={"true"}>
+                          {ptJson.mosaic_position_description}
+                        </option>
+                        <option value={"false"}>
+                          {ptJson.custom_position_description}
+                        </option>
+                      </select>
+                    </div>
+
                     <div className="grid gap-2">
                       <label className="label" htmlFor="verticalPosition">
                         {ptJson.align_vertical}
                       </label>
                       <select
+                        disabled={mosaic === "true"}
                         onChange={(e) => setVerticalPosition(e.target.value)}
                         id="verticalPosition"
                         value={verticalPosition}
@@ -328,6 +421,9 @@ export default function AddPageNumber() {
                       >
                         <option value={verticalPositionValues.bottom}>
                           {ptJson.align_pdf_bottom}
+                        </option>
+                        <option value={verticalPositionValues.middle}>
+                          {ptJson.center}
                         </option>
                         <option value={verticalPositionValues.top}>
                           {ptJson.align_pdf_top}
@@ -340,6 +436,7 @@ export default function AddPageNumber() {
                         {ptJson.horizontal_position}
                       </label>
                       <select
+                        disabled={mosaic === "true"}
                         onChange={(e) => setHorizontalPosition(e.target.value)}
                         value={horizontalPosition}
                         id="horizontalPosition"
@@ -356,31 +453,55 @@ export default function AddPageNumber() {
                         </option>
                       </select>
                     </div>
-                  </div>
 
-                  <div className="grid gap-3 md:grid-cols-[1fr_1fr]">
                     <div className="grid gap-2">
-                      <label htmlFor="pageText" className="label">
-                        {ptJson.text_format_pdf}
+                      <label htmlFor="transparency" className="label">
+                        {ptJson.transparency}
                       </label>
                       <select
-                        onChange={(e) => setPageText(e.target.value)}
-                        value={pageText}
-                        id="pageText"
-                        className="select select-sm select-primary text-white w-full cursor-pointer mr-6"
+                        onChange={(e) =>
+                          setTransparency(Number(e.target.value))
+                        }
+                        value={transparency}
+                        id="transparency"
+                        className="select select-sm select-primary text-white cursor-pointer mr-6 w-full"
                       >
-                        <option value={pageTextValues.page_n}>
-                          {ptJson.page_n}
+                        <option value={transparencyValues.opacity_100}>
+                          {transparencyValues.opacity_100}
                         </option>
-                        <option value={pageTextValues.page_n_of_p}>
-                          {ptJson.page_n_of_p}
+                        <option value={transparencyValues.opacity_75}>
+                          {transparencyValues.opacity_75}
                         </option>
-                        <option value={pageTextValues.page}>
-                          {ptJson.only_page_number}
+                        <option value={transparencyValues.opacity_50}>
+                          {transparencyValues.opacity_50}
+                        </option>
+                        <option value={transparencyValues.opacity_25}>
+                          {transparencyValues.opacity_25}
                         </option>
                       </select>
                     </div>
 
+                    <div className="grid gap-2">
+                      <label htmlFor="layer" className="label">
+                        {ptJson.view_layer}
+                      </label>
+                      <select
+                        value={layer}
+                        onChange={(e) => setLayer(e.target.value)}
+                        id="layer"
+                        className="select select-sm select-primary text-white cursor-pointer mr-6 w-full"
+                      >
+                        <option value={layerValues.above}>
+                          {ptJson.above_content_description}
+                        </option>
+                        <option value={layerValues.below}>
+                          {ptJson.below_content_description}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-3 md:grid-cols-[1fr_1fr]">
                     <div className="grid gap-2">
                       <label htmlFor="fontFamily" className="label">
                         {ptJson.font}
@@ -415,6 +536,26 @@ export default function AddPageNumber() {
                           return (
                             <option value={size} key={i}>
                               {size}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+
+                    <div className="grid gap-2">
+                      <label htmlFor="fontStyle" className="label">
+                        {ptJson.text_style}
+                      </label>
+                      <select
+                        value={fontStyle}
+                        onChange={(e) => setFontStyle(e.target.value)}
+                        id="fontStyle"
+                        className="select select-sm select-primary text-white w-full cursor-pointer mr-6"
+                      >
+                        {Object.values(fontStylesValues).map((style, i) => {
+                          return (
+                            <option value={style} key={i}>
+                              {style}
                             </option>
                           );
                         })}
@@ -463,7 +604,7 @@ export default function AddPageNumber() {
           <ButtonActionFile
             loading={loading}
             onAction={() => wordToPdf()}
-            label={ptJson.add_pages}
+            label={ptJson.add_watermark_pdf}
             loadingLabel={""}
           />
         </div>

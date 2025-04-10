@@ -9,6 +9,7 @@ import { HttpStatusEnum } from "../helpers/enums/errStatusEnum";
 const verticalPositionValues = {
   bottom: "bottom",
   top: "top",
+  middle: "middle",
 };
 const allowedVerticalPositionOptions = Object.values(verticalPositionValues);
 
@@ -20,13 +21,6 @@ const horizontalPositionValues = {
 const allowedHorizontalPositionOptions = Object.values(
   horizontalPositionValues
 );
-
-const pageTextValues = {
-  page_n: "Página {n}",
-  page_n_of_p: "Página {n} de {p}",
-  page: "{n}",
-};
-const allowedTextOptions = Object.values(pageTextValues);
 
 const fontFamilyValues = {
   arial: "Arial",
@@ -40,8 +34,27 @@ const fontFamilyValues = {
 };
 const allowedFontFamilyOptions = Object.values(fontFamilyValues);
 
+const fontStylesValues = {
+  normal: "Normal",
+  bold: "Bold",
+  italic: "Italic",
+};
+const allowedFontStylesOptions = Object.values(fontStylesValues);
+
+const layerValues = {
+  above: "above",
+  below: "below",
+};
+const allowedLayerOptions = Object.values(layerValues);
+
+const modeValues = {
+  text: "text",
+  image: "image",
+};
+const allowedModeOptions = Object.values(modeValues);
+
 export async function POST(req: NextRequest) {
-  const pageNumber = "page_number_pdf";
+  const watermark = "watermark";
   let tempPathToRemove;
   try {
     const formData = await req.formData();
@@ -53,6 +66,11 @@ export async function POST(req: NextRequest) {
     const fontFamily = formData.get("font_family") as string;
     const fontSize = formData.get("font_size") as string;
     const fontColor = formData.get("font_color") as string;
+    const fontStyle = formData.get("font_style") as string;
+    const transparency = formData.get("transparency") as string;
+    const layer = formData.get("layer") as string;
+    const mosaic = formData.get("mosaic") as string;
+    const mode = formData.get("mode") as string;
 
     if (!file) {
       return NextResponse.json(
@@ -95,7 +113,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!text || !allowedTextOptions.includes(text)) {
+    if (!text || text.length <= 0 || typeof text !== "string") {
       return NextResponse.json(
         { message: "invalid_text" },
         { status: HttpStatusEnum.BAD_REQUEST }
@@ -123,17 +141,45 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!fontStyle || !allowedFontStylesOptions.includes(fontStyle)) {
+      return NextResponse.json(
+        { message: "invalid_font_style" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    if (!transparency || Number(transparency) <= 0) {
+      return NextResponse.json(
+        { message: "invalid_transparency_type" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    if (!layer || !allowedLayerOptions.includes(layer)) {
+      return NextResponse.json(
+        { message: "invalid_layer_type" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    if (!mode || !allowedModeOptions.includes(mode)) {
+      return NextResponse.json(
+        { message: "invalid_mode_option" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
     const iLovePdfPublicKey = process.env.ILOVEPDF_PUBLIC_KEY;
     const iLovePdfSecretKey = process.env.ILOVEPDF_SECRET_KEY;
     if (!iLovePdfPublicKey || !iLovePdfSecretKey) {
       return NextResponse.json(
-        { message: `missing_ilovepdf_keys|${pageNumber}` },
+        { message: `missing_ilovepdf_keys|${watermark}` },
         { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
       );
     }
 
     const instance = new ILovePDFApi(iLovePdfPublicKey, iLovePdfSecretKey);
-    const task = instance.newTask("pagenumber");
+    const task = instance.newTask("watermark");
     await task.start();
     const tempFileName = file.name;
     const tempPath = path.join(tmpdir(), tempFileName);
@@ -143,13 +189,18 @@ export async function POST(req: NextRequest) {
     const pdfFile = new ILovePDFFile(tempPath);
     await task.addFile(pdfFile);
     await task.process({
+      pages: `${startPage}-end`,
       vertical_position: verticalPosition,
       horizontal_position: horizontalPosition,
       text,
       font_family: fontFamily,
       font_size: Number(fontSize),
       font_color: fontColor,
-      pages: `${startPage}-end`,
+      font_style: fontStyle === fontStylesValues.normal ? null : fontStyle,
+      transparency: Number(transparency),
+      layer,
+      mosaic: mosaic === "true",
+      mode,
     });
 
     const data = await task.download();
@@ -157,13 +208,13 @@ export async function POST(req: NextRequest) {
     return new Response(data, {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="page-number.pdf"`,
+        "Content-Disposition": `attachment; filename="watermark.pdf"`,
       },
     });
   } catch (err) {
     void err;
     return NextResponse.json(
-      { message: `internal_server_erro|${pageNumber}` },
+      { message: `internal_server_erro|${watermark}` },
       { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
     );
   } finally {

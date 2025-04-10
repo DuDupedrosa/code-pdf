@@ -1,4 +1,5 @@
 import {
+  faBookmark,
   faCompress,
   faFileExcel,
   faFileImage,
@@ -152,6 +153,16 @@ export default function Home() {
           }}
           title={ptJson.add_page_number_pdf}
           description={`${ptJson.add_page_number_pdf_description}.`}
+        />
+
+        <CardAction
+          toPath="watermark"
+          iconProps={{
+            color: "text-amber-600",
+            icon: faBookmark,
+          }}
+          title={ptJson.add_watermark_pdf}
+          description={`${ptJson.add_watermark_pdf_description}.`}
         />
 
         <CardAction
