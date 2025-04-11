@@ -2,6 +2,7 @@ import {
   faBookmark,
   faCompress,
   faFileExcel,
+  faFileHalfDashed,
   faFileImage,
   faFilePowerpoint,
   faFileWord,
@@ -163,6 +164,16 @@ export default function Home() {
           }}
           title={ptJson.add_watermark_pdf}
           description={`${ptJson.add_watermark_pdf_description}.`}
+        />
+
+        <CardAction
+          toPath="split"
+          iconProps={{
+            color: "text-emerald-600",
+            icon: faFileHalfDashed,
+          }}
+          title={ptJson.split_pdf}
+          description={`${ptJson.split_pdf_description}.`}
         />
 
         <CardAction

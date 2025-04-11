@@ -166,5 +166,15 @@
   "transparency": "Transparência",
   "view_layer": "Camada de visualização",
   "above_content_description": "Sobre o conteúdo",
-  "below_content_description": "Atrás do conteúdo"
+  "below_content_description": "Atrás do conteúdo",
+  "split_pdf_success": "PDF dividido com sucesso!",
+  "split_another_pdf": "Dividir outro PDF",
+  "split_pdf_progress": "Dividindo PDF... Isso levará apenas alguns instantes.",
+  "split_pdf": "Dividir PDF",
+  "split_pdf_description": "Escolha como deseja separar ou remover páginas do seu arquivo PDF",
+  "split_page_interval_title": "Dividir por intervalos de páginas",
+  "remove_pages_title": "Remover páginas específicas",
+  "pages": "Páginas",
+  "example": "Exemplo",
+  "merge_unique_pdf": "Combinar tudo em um único PDF"
 }
