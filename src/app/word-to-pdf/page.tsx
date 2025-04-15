@@ -1,5 +1,11 @@
+import Header from "@/components/Header";
 import WordToPdf from "./components/WordToPdf";
 
 export default function page() {
-  return <WordToPdf />;
+  return (
+    <>
+      <Header />
+      <WordToPdf />
+    </>
+  );
 }
