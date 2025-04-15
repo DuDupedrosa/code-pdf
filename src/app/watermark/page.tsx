@@ -1,5 +1,11 @@
+import Header from "@/components/Header";
 import WaterMark from "./components/Watemark";
 
 export default function page() {
-  return <WaterMark />;
+  return (
+    <>
+      <Header />
+      <WaterMark />
+    </>
+  );
 }
