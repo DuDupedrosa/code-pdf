@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import ptJson from "@/translate/pt.json";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 function CardAction({
   title,
@@ -201,6 +202,8 @@ export default function Home() {
           />
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
