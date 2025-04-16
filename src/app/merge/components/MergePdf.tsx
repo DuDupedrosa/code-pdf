@@ -29,8 +29,8 @@ export default function MergePdf() {
       setFiles((prevFiles) => {
         const totalFiles = [...prevFiles, ...acceptedFiles].length;
 
-        if (totalFiles > 4 && !toastShownRef.current) {
-          toast.warning(ptJson.you_can_process_4_files, {
+        if (totalFiles > 2 && !toastShownRef.current) {
+          toast.warning(ptJson.you_can_process_2_files, {
             position: "top-center",
           });
           toastShownRef.current = true;
@@ -39,10 +39,10 @@ export default function MergePdf() {
           }, 2000);
         }
 
-        return [...prevFiles, ...acceptedFiles].slice(0, 4);
+        return [...prevFiles, ...acceptedFiles].slice(0, 2);
       });
     },
-    [ptJson.you_can_process_4_files, setFiles]
+    [ptJson.you_can_process_2_files, setFiles]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -67,8 +67,8 @@ export default function MergePdf() {
         return;
       }
 
-      if (files.length > 4) {
-        toast.warning(ptJson.you_can_process_4_files, {
+      if (files.length > 2) {
+        toast.warning(ptJson.you_can_process_2_files, {
           position: "top-center",
         });
         return;
@@ -147,7 +147,7 @@ export default function MergePdf() {
             subtitle={ptJson.merge_pdf_description}
           />
 
-          <MaxFilesTooltipInfo />
+          <MaxFilesTooltipInfo text={ptJson.you_can_process_2_files} />
 
           <div
             {...getRootProps()}

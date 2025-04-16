@@ -28,9 +28,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (files.length > 4) {
+    if (files.length > 2) {
       return NextResponse.json(
-        { message: "you_can_process_4_files" },
+        { message: "you_can_process_2_files" },
         { status: HttpStatusEnum.BAD_REQUEST }
       );
     }
