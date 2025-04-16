@@ -167,7 +167,7 @@ export default function Header() {
   const router = useRouter();
 
   return (
-    <div className="h-24 bg-base-300 px-6 md:px-10 flex items-center justify-between">
+    <header className="h-24 bg-base-300 px-6 md:px-10 flex items-center justify-between">
       <div onClick={() => router.push("/")} className="cursor-pointer">
         <Image src={Logo} alt="CODE-PDF" className="rounded" />
       </div>
@@ -239,6 +239,6 @@ export default function Header() {
           </div>
         </div>
       </nav>
-    </div>
+    </header>
   );
 }
