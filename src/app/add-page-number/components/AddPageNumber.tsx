@@ -17,6 +17,7 @@ import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 const radioLabel =
   "label cursor-pointer whitespace-break-spaces flex items-start gap-2";
@@ -146,7 +147,7 @@ export default function AddPageNumber() {
       formData.append("font_size", String(fontSize));
       formData.append("font_color", getHexadecimal(color));
 
-      const resp = await fetch("/api/add-page-number", {
+      const resp = await fetch(`${getApiBaseUrl()}/add-page-number`, {
         method: "POST",
         body: formData,
       });

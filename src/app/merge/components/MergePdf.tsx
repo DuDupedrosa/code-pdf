@@ -15,6 +15,7 @@ import SuccessFinishedTask from "@/components/SuccessFinishedTask";
 import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
 import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 export default function MergePdf() {
   const [files, setFiles] = useState<File[] | []>([]);
@@ -80,7 +81,7 @@ export default function MergePdf() {
         formData.append("file", file);
       });
 
-      const resp = await fetch("/api/merge-pdf", {
+      const resp = await fetch(`${getApiBaseUrl()}/merge`, {
         method: "POST",
         body: formData,
       });

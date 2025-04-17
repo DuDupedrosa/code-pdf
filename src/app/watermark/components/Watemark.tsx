@@ -17,6 +17,7 @@ import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 const radioLabel =
   "label cursor-pointer whitespace-break-spaces flex items-start gap-2";
@@ -178,7 +179,7 @@ export default function WaterMark() {
       formData.append("mosaic", mosaic);
       formData.append("mode", "text");
 
-      const resp = await fetch("/api/watermark", {
+      const resp = await fetch(`${getApiBaseUrl()}/watermark`, {
         method: "POST",
         body: formData,
       });

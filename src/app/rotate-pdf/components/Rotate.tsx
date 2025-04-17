@@ -21,6 +21,7 @@ import {
   faRotateLeft,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 const rotateOptions = {
   rotate_0: 0,
@@ -92,7 +93,7 @@ export default function RotatePdf() {
       formData.append("file", files[0]);
       formData.append("rotate", String(rotate));
 
-      const resp = await fetch("/api/rotate-pdf", {
+      const resp = await fetch(`${getApiBaseUrl()}/rotate`, {
         method: "POST",
         body: formData,
       });

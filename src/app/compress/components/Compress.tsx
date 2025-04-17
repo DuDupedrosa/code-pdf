@@ -17,6 +17,7 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 import MainFileLoading from "@/components/MainFileLoading";
 import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 const radioLabel =
   "label cursor-pointer whitespace-break-spaces flex items-start gap-2 w-full";
@@ -91,7 +92,7 @@ export default function Compress() {
         formData.append("file", file);
       });
 
-      const resp = await fetch("/api/compress-pdf", {
+      const resp = await fetch(`${getApiBaseUrl()}/compress`, {
         method: "POST",
         body: formData,
       });
