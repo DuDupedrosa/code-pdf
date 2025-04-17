@@ -17,6 +17,7 @@ import SuccessFinishedTask from "@/components/SuccessFinishedTask";
 import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
 import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 const orientationOptions = {
   portrait: "portrait",
@@ -92,10 +93,10 @@ export default function ConvertImagesToPdf() {
       formData.append("orientation", orientation);
       formData.append("margin", margin);
       images.forEach((image) => {
-        formData.append("image", image);
+        formData.append("file", image);
       });
 
-      const resp = await fetch("/api/convert-images-to-pdf", {
+      const resp = await fetch(`${getApiBaseUrl()}/convert-images`, {
         method: "POST",
         body: formData,
       });

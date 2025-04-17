@@ -22,6 +22,7 @@ import {
 import MainFileLoading from "@/components/MainFileLoading";
 import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 export default function Lock() {
   const [files, setFiles] = useState<File[] | []>([]);
@@ -91,7 +92,7 @@ export default function Lock() {
       formData.append("file", files[0]);
       formData.append("password", password);
 
-      const resp = await fetch("/api/lock-pdf", {
+      const resp = await fetch(`${getApiBaseUrl()}/lock`, {
         method: "POST",
         body: formData,
       });

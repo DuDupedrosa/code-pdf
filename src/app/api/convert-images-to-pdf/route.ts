@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     const mergeAfter = formData.get("mergeAfter") as string | null;
     const orientation = formData.get("orientation") as string;
     const margin = formData.get("margin") as string;
-    const images = formData.getAll("image") as File[];
+    const images = formData.getAll("file") as File[];
 
     if (images.length === 0) {
       return NextResponse.json(

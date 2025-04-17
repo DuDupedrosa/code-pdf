@@ -15,6 +15,7 @@ import MaxFilesTooltipInfo from "@/components/MaxFilesTooltipInfo";
 import MainFileLoading from "@/components/MainFileLoading";
 import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 export default function ExcelToPdf() {
   const [files, setFiles] = useState<File[] | []>([]);
@@ -76,7 +77,7 @@ export default function ExcelToPdf() {
       const formData = new FormData();
       formData.append("file", files[0]);
 
-      const resp = await fetch("/api/office-to-pdf", {
+      const resp = await fetch(`${getApiBaseUrl()}/convert-office`, {
         method: "POST",
         body: formData,
       });

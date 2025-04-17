@@ -17,6 +17,7 @@ import AlertErro from "@/components/AlertErro";
 import { getDateToFileConverted } from "@/helpers/methods/dateHelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { getApiBaseUrl } from "@/helpers/methods/getApiBaseUrl";
 
 const radioLabel =
   "label cursor-pointer whitespace-break-spaces flex items-start gap-2 w-full";
@@ -90,7 +91,7 @@ export default function WordToPdf() {
       formData.append("file", files[0]);
       formData.append("mode", mode);
 
-      const resp = await fetch("/api/pdf-to-jpg", {
+      const resp = await fetch(`${getApiBaseUrl()}/convert-pdf-to-jpg`, {
         method: "POST",
         body: formData,
       });
